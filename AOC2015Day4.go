@@ -13,8 +13,10 @@ func p(s string) {
 func CalcMDFive(s []byte) string {
 
 	hash := md5.Sum(s)
-	fmt.Printf("hash: %x\n", hash)
-	var hashString = ""
+	//fmt.Printf("hash: %x\n", hash)
+	//p(fmt.Sprintf("%x", hash))
+	//p(fmt.Sprintf("%x", hash[:3])[:5])
+	var hashString = fmt.Sprintf("%x", hash[:3])[:5]
 
 	//for _, v := range hash {
 	//	p(fmt.Sprintf("%x", v))
@@ -25,27 +27,17 @@ func CalcMDFive(s []byte) string {
 }
 
 func main() {
-	var input = "abcdef" //"ckczppom"
+	var input = "ckczppom"
 	var postfixNum int64 = 0
-
-	postfixNum = 609043
-	hash := CalcMDFive(append([]byte(input), []byte(strconv.FormatInt(postfixNum, 10))...))
-	p(hash)
 
 	for {
 		postfixNum++
-		hash := md5.Sum(append([]byte(input), []byte(strconv.FormatInt(postfixNum, 10))...))
-		var firstFiveChars = ""
+		hash := CalcMDFive(append([]byte(input), []byte(strconv.FormatInt(postfixNum, 10))...))
 
-		for _, v := range hash {
-			firstFiveChars += fmt.Sprintf("%x", v)
-			//p(firstFiveChars)
-		}
-		if firstFiveChars[:5] == "00000" {
+		if hash == "00000" {
 			fmt.Printf("found solution at %d\n", postfixNum)
-			p(firstFiveChars)
+			p(hash)
 			break
 		}
-		//fmt.Printf("tried %d\n", postfixNum)
 	}
 }
